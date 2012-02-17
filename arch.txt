@@ -1,0 +1,75 @@
+#how to install package with pacman localy after download
+tar -xzvf <package_name>.tar.gz
+cd <package_name>
+makepkg
+sudo pacman -U <package_name>.pkg.tar.xz
+
+#install envy code r font with packer 
+#after downloading & installing packer
+#as it is already described above
+sudo packer -S ttf-envy-code-r
+
+#xorg.conf configure 
+vi /etc/X11/xorg.conf
+
+Section "ServerLayout"
+	Identifier     "X.org Configured"
+	Screen      0  "Screen0" 0 0
+	InputDevice    "Mouse0" "CorePointer"
+	InputDevice    "Keyboard0" "CoreKeyboard"
+EndSection
+
+Section "Files"
+	FontPath 	"/usr/share/fonts/local/"
+	FontPath 	"/usr/share/fonts/Type1/"
+	#...
+EndSection
+
+Section "Module"
+	Load  "record"
+	Load  "glx"
+	Load  "extmod"
+	Load  "dbe"
+EndSection
+
+Section "InputDevice"
+	Identifier  "Keyboard0"
+	Driver      "kbd"
+EndSection
+
+Section "InputDevice"
+	Identifier  "Mouse0"
+	Driver      "mouse"
+	Option	    "Protocol" "auto"
+	Option	    "Device" "/dev/input/mice"
+	Option	    "ZAxisMapping" "4 5 6 7"
+EndSection
+
+Section "Monitor"
+	Identifier   "Monitor0"
+EndSection
+
+Section "Device"
+	Identifier  "Nvidia card"
+	Driver      "nouveau"
+EndSection
+
+Section "Screen"
+	Identifier 	"Screen0"
+	Device     	"Nvidia card"
+	Monitor    	"Monitor0"
+	DefaultDepth	16
+	SubSection "Display"
+		Depth   16
+		Modes   "1024x768_75.00"
+	EndSubSection
+EndSection
+
+Section "InputClass"
+	Identifier      "evdev keyboard catchall"
+	MatchIsKeyboard  "on
+	MatchDevicePath  "/dev/input/event*"
+	Driver		 "evdev"
+	Option   	 "XkbOptions" "ctrl:nocaps"
+EndSection
+
