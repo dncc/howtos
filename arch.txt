@@ -1,3 +1,49 @@
+#instal pm-utils for suspend/hibernate functionality
+
+1. Install pm-utils
+2. Install vbetool and acpi(need them for pm-utils to work)
+3. Standby/Suspend to RAM should be imidiatelly enabled with
+   sudo pm-suspend command
+4. Standby/Suspend to disk (Hibernation) needs some additional   configuration: 
+	4.1 add to /boot/grub/menu.lst (config file for grub1)
+	    'resume=/path/to/swap/drive' (/dev/sda5 on my mac
+	    since /dev/sda3 is /boot partition and /dev/sda4
+	    is linux main partition)
+	    the kernel line in the next paragraph is changed:
+
+		title  Arch Linux
+		root   (hd0,2)
+		kernel /vmlinuz-linux root=/dev/sda4 ro
+		initrd /initramfs-linux.img
+	    
+	   as follows: 
+	        kernel /vmlinuz-linux root/dev/sda4 resume=/dev/sda5 ro
+
+	4.2 resume hook should be added to 
+            /etc/mkinitcpio.conf in the following line:
+		HOOKS="base udev autodetect ide scsi sata lvm2 resume filesystems "
+            it is important to place resume after ide,scisi, 	          sata and lvm2 and before filesystems.
+	    After this edit recreate linux image by: 
+
+	    	'mkinitcpio -p linux' command
+	 
+	4.3 set user permissions for pm-utils in 
+	    /etc/sudoers as follows:
+
+	    	<username> <hostname>=NOPASSWD: /usr/sbin/pm-hibernate, /usr/sbin/pm-suspend
+	    	(replace <username> and <hostname> with 
+	         acctual values)
+	4.4. Add aliases in your ~/.bashrc or ~/.zshrc 
+
+	     	alias hibernate="sudo pm-hibernate"
+	     	alias suspend="sudo pm-suspend"
+
+	     and you are good to go! happy hacking.
+
+	
+  	
+
+
 #how to install package with pacman localy after download
 tar -xzvf <package_name>.tar.gz
 cd <package_name>
