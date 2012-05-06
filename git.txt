@@ -1,0 +1,162 @@
+#creating repository
+-----------------------------------------------------------------------
+#In this example, we?re going to create a
+#simple HTML page, so let?s call our project mysite. You need to create
+#a directory of the same name; then change into it, and type git init. The
+#whole process should look something like this:
+mkdir mysite
+cd mysite
+git init
+# => Initialized empty Git repository in /cygdrive/r/workspace/Sandbox/mysite/.git/
+#You?re done. You now have a Git repository that is ready to start tracking
+#your project.
+-----------------------------------------------------------------------
+#tell Git we want to track some files (index.html for instance).
+-----------------------------------------------------------------------
+#This is a two-step process. First we have to tell Git to
+#add the file to its index using the command git add; then we create a
+#commit using git commit.
+
+prompt> git add index.html
+prompt> git commit -m "add in hello world HTML"
+
+#  => [master (root-commit) 1e776a3] add in hello world HTML
+#  => 1 files changed, 5 insertions(+), 0 deletions(-)
+#  => create mode 100644 index.html
+-----------------------------------------------------------------------
+#You can see your commit by running git log:
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+# Resolving conflicts
+-----------------------------------------------------------------------
+#create a new branch called about to add our work in:
+git checkout -b about master
+#Switched to branch "about"
+
+#create a second branch called about2, but don’t switch to it:
+git branch about2 about
+#Before you switch branches, add another language to your about.html file, and commit your change:
+prompt> git commit -m "add Javascript to list" -a
+#Switch over to about2. 
+git checkout about2
+
+#Add another name to about.html on the same line where you added your last entry, but this time make it something different.
+git commit -m "add EMCAScript to list" -a
+#Start by switching back to about, and then try merging about2 into it:
+git checkout about
+#Switched to branch "about"
+git merge about2
+#Auto-merged about.html
+#CONFLICT (content): Merge conflict in about.html
+#Automatic merge failed; fix conflicts and then commit the result.
+
+git mergetool
+#Merging the files: about.html
+#Normal merge conflict for 'about.html':
+#{local}: modified
+#{remote}: modified
+#Hit return to start merge resolution tool (opendiff):
+-------------------------------------------------------
+BACKUP
+-------------------------------------------------------
+git init --bare share #on usb or backup drive
+cd <origin>
+git remote add backup /path/to/the/backup/dir
+git push backup master
+-------------------------------------------------------
+RETRIEVING BACKUP
+-------------------------------------------------------
+git pull backup master
+-------------------------------------------------------
+
+-------------------------------------------------------
+SEE RECENT HISTORY
+-------------------------------------------------------
+gitk <filename>
+git log -p <filename>
+git log --graph --pretty=oneline --abbrev-commit --decorate #short log output
+git log --follow -p <filename>
+git whatchanged -p <filename>
+
+-------------------------------------------------------
+
+UNDO COMMIT
+-------------------------------------------------------
+#the safest way is to rebase interactivelly
+git rebase -i HEAD^^
+#non reversible, will delete current commit and all changes in working tree
+#and it will set current commit to the parrent of the deleted one
+git reset --hard HEAD^
+#also we can revert commit but it will add more commit messages to the history
+git revert HEAD~3 #(HEAD~3 is the same as HEAD^^^)
+
+VIEW DIFFS OF SAME FILE IN DIFFERENT COMMITS
+-------------------------------------------------------
+git diff HEAD:Git.txt HEAD^:Git.txt
+
+UNDO COMMIT
+-------------------------------------------------------
+$ git commit -a
+$ git revert 1b6d
+#will undo just the commit with the given hash. The revert is recorded as a new commit, which you can confirm by running git log.
+
+CHECKOUT by referencing commit with message
+--------------------------------------------------------
+$ git checkout :/"My first b"
+#to jump to the commit that starts with a given message. You can also ask for the 5th-last saved state:
+$ git checkout master~5
+
+WHAT HAVE I DONE?
+--------------------------------------------------------
+$ git diff "@{yesterday}"
+#Or between a particular version and 2 versions ago:
+$ git diff 1b6d "master~2"
+#In each case the output is a patch that can be applied with git apply. Try also:
+$ git whatchanged --since="2 weeks ago"
+
+#Let A, B, C, D be four successive commits where B is the same as A except some files have 
+#been removed. We want to add the files back at D. How can we do this?
+#There are at least three solutions. Assuming we are at D:
+#The difference between A and B are the removed files. We can create a patch representing this difference and apply it:
+$ git diff B A | git apply
+#Since we saved the files back at A, we can retrieve them:
+$ git checkout A foo.c bar.h
+#We can view going from A to B as a change we want to undo:
+$ git revert B
+
+#pull, clone git and linux
+git pull/clone http://github.com/torvalds/linux.git #Linux
+git pull/clone http://github.com/gitster/git.git #Git
+
+#diff's between staged and commited
+git diff --staged
+
+#fork github
+1. Fork the “Spoon-Knife ” repo
+
+2. $ git clone git@github.com:username/Spoon-Knife.git (Clone the “Spoon-Knife” project my fork)
+
+3. When a repo is cloned, it has a default remote called origin that points to your fork on GitHub,
+   not the original repo it was forked from. To keep track of the original repo,
+   you need to add another remote named upstream: 
+
+   $ git remote add upstream git://github.com/octocat/Spoon-Knife.git
+   $ git fetch upstream
+
+4. Pull commits 
+   $ git merge upstream/master
+
+SANBOXING STRATEGY
+----------------------------------------------------------------------------------------------------
+git checkout master
+# update master branch from the origin (last commit: a7578e95cbdbb47e)
+git fetch upstream
+git merge upstream/master
+# play/work in sanbox
+git checkout sanbox # (local sanbox branch)
+#work here and commit all changes
+#than rebase commited changes to the new updates from the origin
+git commit -a -m "some changes"
+git rebase a7578e95cbdbb47e 
+----------------------------------------------------------------------------------------------------
+
