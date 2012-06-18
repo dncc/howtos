@@ -159,4 +159,7 @@ git checkout sanbox # (local sanbox branch)
 git commit -a -m "some changes"
 git rebase a7578e95cbdbb47e 
 ----------------------------------------------------------------------------------------------------
+#push to remote repository
+git remote add origin git@github.com:dcvetino/wmiirc.git
+git push -u origin master
 

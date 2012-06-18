@@ -1,0 +1,12 @@
+# list all ip interfaces
+ip link
+# set up wlan0 interface
+sudo ip link set wlan0 up
+# scan networks within reach
+sudo iwlist wlan0 scan
+# connect to "dlink" network 
+sudo iwconfig wlan0 essid "dlink" (key <hexadecimal_key>)?
+sudo iwconfig wlan0 essid "dlink" (key s:<ascii_key>)?
+# start up 
+sudo ifconfig wlan0 up
+sudo dhclient wlan0

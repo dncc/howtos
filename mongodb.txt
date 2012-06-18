@@ -1,0 +1,9 @@
+#start stop
+sudo /etc/rc.d/mongodb start|stop|restart
+#mongo console
+mongo
+#mongo console main commands 
+show dbs
+use db
+show collections
+db.collection.help()

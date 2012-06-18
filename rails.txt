@@ -1,0 +1,29 @@
+#MONGOID
+# generate config/mongoid.yml file
+rails g mongoid:config
+# create indexes with rake task (mongoid)
+rake db:mongoid:create_indexes
+rake db:monoid:remove_indexes
+#---------------------------------------- 
+#scaffold generator : creates mvc elements, tests, css ..
+rails g scaffold model name:string content:text
+
+#skip active record at app creation
+rails new app_name --skip-active-record
+#or skip active record after app creation
+#from /config/application.rb
+- require "rails/all" 
++ require "action_controller/railtie"
++ require "active_resource/railtie"
++ require "action_mailer/railtie"
++ require "rails/test_unit/railtie"
++ require "sprockets/railtie" # Rails 3.1+
+
+comment out *.active_record.mass_assignment.sanitizer
+	      and *.active_record.auto_explain_treshold*
+from    /config/environments/development.rb
+
+#KAMINARI
+#generate config/initializers/kaminari_config.rb file
+rails g kaminari:config
+#---------------------------------------- 
