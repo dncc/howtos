@@ -1,5 +1,4 @@
 #instal pm-utils for suspend/hibernate functionality
-
 1. Install pm-utils
 2. Install vbetool and acpi(need them for pm-utils to work)
 3. Standby/Suspend to RAM should be imidiatelly enabled with
@@ -118,4 +117,25 @@ Section "InputClass"
 	Driver		 "evdev"
 	Option   	 "XkbOptions" "ctrl:nocaps"
 EndSection
+------------------------------------------------
+# set cyrilic layout
+# first install xorg-xkbevd and add xkbevd to rc.conf daemons section
+# one possibility is to create /etc/X11/xorg.conf.d/01-keyboard.conf file 
+# as follows: (/usr/share/X11/xkb/rules/xorg.lst has all grp: options/key kombinations)
+       Section "InputClass"
+               Identifier             "keyboard0"
+               MatchIsKeyboard        "on"
+               Option "XkbLayout"     "us, rs"
+               Option "XkbOptions"    "grp:alt_shift_toggle"
+       EndSection
+# Since this didn't work for me I simply put the 
+# following line in .xinitrc (before wmii command)
+setxkbmap -layout "us, rs" -option "grp:alt_shift_toggle"
+-------------------------------------------------
+#remove pkg w/ pacman w/ and its dependencies 
+#which are not required by any other pkg
+pacman -Rs package_name
+#see if pkg is installed
+pacman -Qs package_name
 
+------------------------------------------------

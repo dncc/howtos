@@ -1,0 +1,14 @@
+#install mysql, start deamon, and run installation script
+pacman -S mysql
+sudo rc.d start mysqld && mysql_secure_installation
+#after install restart it
+sudo rc.d start|stop|restart mysqld
+# To start MySQL automatically at boot, edit 
+# /etc/rc.conf and add mysqld to the DAEMONS array. 
+
+#start mysql console
+mysql -u root -p
+#import sqldump script
+mysql -u root -p < dump.sql
+#create sqldump script
+mysqldump -u root -p db_name > file_name.sql
