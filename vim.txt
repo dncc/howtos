@@ -1,0 +1,53 @@
+
+g?$ #encodes/decodes letters to rot13 encoding
+:8,18g/./m7 #reverses order lines 8 to 18
+:g/^\s*$/d  #delete all blank lines
+:g/<pattern>/t$ #copy all lines matching the pattern to end of file
+0"ay0:g/<pattern>/y A #first 0 moves cursor to the beginning of line, then yank 'move to the beginning of line' to the register a (since we are already there yank nothing so register a is cleared this way), then y every line matching <pattern> to the register A
+#------------------
+# movements
+#------------------
+^  - first non blank char in the line
+g_ - last  non blank char in the line
+#------------------
+# golden commands
+#------------------
+*  
+# # go to next/previous occurence of the word
+% # goto corresponding (, {, [
+
+#------------------
+# combinations
+#------------------
+0y$    - yank hole line, (yy shorhand)
+y2/foo - yank until second occurence of foo
+gu2w   - to lower case next two words
+gUe    - to upper case until the end of the current word
+#      - this all applies also to commands: d, v, c.
+#-----------------------------------------------------------
+# add to the end of all lines of selected block
+#-----------------------------------------------------------
+1. <C-v> - visual block mode
+2. <C-d> - go down half a page
+3. $	 - go to the end of line (select whole block)
+4. A	 - enter text at the end of line
+5. <C-[> - exit insert mode
+#------------------------------ 
+# postwriting sudo save
+#------------------------------ 
+:w !sudo tee %
+#------------------------------ 
+# execute outer command and output it to the vim buffer
+#------------------------------ 
+:.! ls
+:.! date -> Mon Aug 29 23:09:30 CEST 2011
+#------------------------------ 
+# vim into hex editor 
+#------------------------------ 
+:%!xxd  
+#------------------------------ 
+# move forward backward through changelist 
+#------------------------------ 
+g;
+g,
+

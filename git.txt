@@ -79,7 +79,6 @@ git log --follow -p <filename>
 git whatchanged -p <filename>
 
 -------------------------------------------------------
-
 UNDO COMMIT
 -------------------------------------------------------
 #the safest way is to rebase interactivelly
@@ -162,4 +161,20 @@ git rebase a7578e95cbdbb47e
 #push to remote repository
 git remote add origin git@github.com:dcvetino/wmiirc.git
 git push -u origin master
+
+-----------------------------------------------
+CHERRY-PICKING (MERGING ONLY SPECIFIC COMMITS 
+FROM DIFFERENT BRANCH INTO THE CURRENT BRANCH)
+-----------------------------------------------
+# Apply the changes introduced by all commits that are ancestors of 
+# master but not of HEAD to produce new commits. 
+git cherry-pick ^HEAD master
+# Apply the changes introduced by the fifth and third last commits 
+# pointed to by master and create 2 new commits with these changes. 
+git cherry-pick master~4 master~2
+# Apply the change introduced by the commit at the tip of the master 
+# branch and create a new commit with this change.
+git cherry-pick master
+
+
 

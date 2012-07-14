@@ -1,0 +1,6 @@
+#building gem w/ bundler
+bundle gem <pname>
+#after /lib , .gitignore, Rakefile etc. are generated
+#you should git init & git add . & git commit -m ""
+#building (only git commit files)
+rake build
