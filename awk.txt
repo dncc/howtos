@@ -1,0 +1,46 @@
+# run with: awk -f test
+BEGIN { print "Hello World" }
+
+# find all lines with foo sub/string
+# in BBS-list file and print it
+# awk '/foo/ { print $0 }' BBS-list
+
+# Print the length of the longest input line:
+# 	awk ’{ if (length($0) > max) max = length($0) }
+# 	       	  END { print max }’ data
+
+# Print every line that is longer than 80 characters:
+# 	awk ’length($0) > 80’ data
+# rule has no action so the default action, printing the record, is used.
+
+# Print the length of the longest line in data:
+# 	expand data | awk ’{ if (x < length()) x = length() }
+# 	       	      	     END { print "maximum line length is " x }’
+# The input is processed by the expand utility to change tabs into spaces, so the
+# widths compared are actually the right-margin columns.
+
+# Print every line that has at least one field:
+# 	awk ’NF > 0’ data
+# This is an easy way to delete blank lines from a file (or rather,
+# to create a new file from which the blank lines have been removed).
+
+# Print seven random numbers from 0 to 100, inclusive:
+# 	awk ’BEGIN { for (i = 1; i <= 7; i++) print int(101 * rand()) }’
+
+# Print the total number of bytes used by files:
+# 	ls -l files | awk ’{ x += $5 } ; END { print "total bytes: " x }’
+
+# Print the total number of kilobytes used by files:
+# 	ls -l files | awk ’{ x += $5 } END { print "total K-bytes: " (x + 1023)/1024 }’
+
+# Print a sorted list of the login names of all users:
+# 	awk -F: ’{ print $1 }’ /etc/passwd | sort
+
+# Count the lines in a file:
+# 	awk ’END { print NR }’ data
+
+# Print the even-numbered lines in the datafile:
+# 	awk ’NR % 2 == 0’ data
+# If you use the expression NR % 2 == 1 instead, the program
+# would print the odd-numbered lines.
+
