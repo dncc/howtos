@@ -1,8 +1,9 @@
+#mongodb location /var/lib/mongodb/
 #start stop
 sudo /etc/rc.d/mongodb start|stop|restart
 #mongo console
 mongo
-#mongo console main commands 
+#mongo console main commands
 show dbs
 use db
 show collections

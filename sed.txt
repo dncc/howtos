@@ -1,0 +1,3 @@
+#change foo to bar in all *.rb  files
+sed -i 's/foo/bar/g' `ls **/*.rb`
+
