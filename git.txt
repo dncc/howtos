@@ -1,56 +1,29 @@
-#creating repository
+----------------------------------------------------------------------
+# RESOLVING CONFLICTS
 -----------------------------------------------------------------------
-#In this example, we?re going to create a
-#simple HTML page, so let?s call our project mysite. You need to create
-#a directory of the same name; then change into it, and type git init. The
-#whole process should look something like this:
-mkdir mysite
-cd mysite
-git init
-# => Initialized empty Git repository in /cygdrive/r/workspace/Sandbox/mysite/.git/
-#You?re done. You now have a Git repository that is ready to start tracking
-#your project.
------------------------------------------------------------------------
-#tell Git we want to track some files (index.html for instance).
------------------------------------------------------------------------
-#This is a two-step process. First we have to tell Git to
-#add the file to its index using the command git add; then we create a
-#commit using git commit.
-
-prompt> git add index.html
-prompt> git commit -m "add in hello world HTML"
-
-#  => [master (root-commit) 1e776a3] add in hello world HTML
-#  => 1 files changed, 5 insertions(+), 0 deletions(-)
-#  => create mode 100644 index.html
------------------------------------------------------------------------
-#You can see your commit by running git log:
------------------------------------------------------------------------
------------------------------------------------------------------------
-# Resolving conflicts
------------------------------------------------------------------------
-#create a new branch called about to add our work in:
+# create a new branch "about" and switch to it
 git checkout -b about master
-#Switched to branch "about"
 
-#create a second branch called about2, but don’t switch to it:
+# create a second branch called "about2", but don’t switch to it:
 git branch about2 about
-#Before you switch branches, add another language to your about.html file, and commit your change:
-prompt> git commit -m "add Javascript to list" -a
-#Switch over to about2. 
+
+# Before you switch, add another language to your about.html file,
+# and commit your change:
+git commit -m "add Javascript to list" -a
+#Switch over to about2.
 git checkout about2
 
-#Add another name to about.html on the same line where you added your last entry, but this time make it something different.
+# Add another name to about.html on the same line where you added
+# your last entry, but this time make it something different.
 git commit -m "add EMCAScript to list" -a
-#Start by switching back to about, and then try merging about2 into it:
-git checkout about
-#Switched to branch "about"
-git merge about2
-#Auto-merged about.html
-#CONFLICT (content): Merge conflict in about.html
-#Automatic merge failed; fix conflicts and then commit the result.
 
+# Switch back to about, and then try merging about2 into it:
+git checkout about
+git merge about2
+
+# conflict should occur so start:
 git mergetool
+
 #Merging the files: about.html
 #Normal merge conflict for 'about.html':
 #{local}: modified
@@ -107,74 +80,120 @@ $ git checkout master~5
 
 WHAT HAVE I DONE?
 --------------------------------------------------------
-$ git diff "@{yesterday}"
-#Or between a particular version and 2 versions ago:
-$ git diff 1b6d "master~2"
-#In each case the output is a patch that can be applied with git apply. Try also:
-$ git whatchanged --since="2 weeks ago"
+    $ git diff "@{yesterday}"
 
-#Let A, B, C, D be four successive commits where B is the same as A except some files have 
-#been removed. We want to add the files back at D. How can we do this?
-#There are at least three solutions. Assuming we are at D:
-#The difference between A and B are the removed files. We can create a patch representing this difference and apply it:
-$ git diff B A | git apply
-#Since we saved the files back at A, we can retrieve them:
-$ git checkout A foo.c bar.h
-#We can view going from A to B as a change we want to undo:
-$ git revert B
+Or between a particular version and 2 versions ago:
+    $ git diff 1b6d "master~2"
 
-#pull, clone git and linux
-git pull/clone http://github.com/torvalds/linux.git #Linux
-git pull/clone http://github.com/gitster/git.git #Git
+In each case the output is a patch that can be applied with
+git apply. Try also:
+    $ git whatchanged --since="2 weeks ago"
 
-#diff's between staged and commited
-git diff --staged
+Let A, B, C, D be four successive commits where B is the same
+as A except some files have been removed. We want to add the
+files back at D. How can we do this? There are at least three
+solutions. Assuming we are at D: The difference between A and B
+are the removed files. We can create a patch representing this
+difference and apply it:
+    $ git diff B A | git apply
 
-#fork github
-1. Fork the “Spoon-Knife ” repo
+Since we saved the files back at A, we can retrieve them:
+    $ git checkout A foo.c bar.h
 
-2. $ git clone git@github.com:username/Spoon-Knife.git (Clone the “Spoon-Knife” project my fork)
+We can view going from A to B as a change we want to undo:
+    $ git revert B
 
-3. When a repo is cloned, it has a default remote called origin that points to your fork on GitHub,
-   not the original repo it was forked from. To keep track of the original repo,
-   you need to add another remote named upstream: 
+Pull, clone git and linux
+    $ git pull/clone http://github.com/torvalds/linux.git #Linux
+    $ git pull/clone http://github.com/gitster/git.git #Git
 
-   $ git remote add upstream git://github.com/octocat/Spoon-Knife.git
+Diff's between staged and commited
+    $ git diff --staged
+--------------------------------------------------------
+FORK GITHUB
+--------------------------------------------------------
+1. Fork the project wia github web UI or command line
+
+2. Clone it:
+   $ git clone git@github.com:dncc/project.git
+
+3. The clone has a default remote called origin that points to my fork on GitHub.
+   To keep track of the original repo, you need to add another remote named upstream:
+
+   $ git remote add upstream git://github.com/octocat/project.git
    $ git fetch upstream
+   $ git merge upstream/master # fetch & merge can be replaced
+                               # with '$git pull upstream master'
+   $ git push                  # this will push changes to the
+                               # fork repo on the github
 
-4. Pull commits 
-   $ git merge upstream/master
+--------------------------------------------------------
+CLONE ALL REMOTE BRANCHES
+--------------------------------------------------------
+This is related to FORK GITHUB, and it is done usually
+after it. Look at the local branches in your repository:
 
+$ git branch
+* master
+
+But there are other branches hiding in your repository!
+You can see these using the -a flag:
+
+$ git branch -a
+* master
+  origin/HEAD
+  origin/master
+  origin/v1.0-stable
+  origin/experimental
+
+You just want to take a quick peek at an origin branch?
+Check it out directly:
+
+$ git checkout origin/experimental
+
+But if you want to work on that branch,
+you'll need to create a local tracking branch:
+
+$ git checkout -b experimental origin/experimental
+
+Now, if you look at your local branches:
+
+$ git branch
+  master
+* experimental
+
+----------------------------------------------------------------------------------------------------
 SANBOXING STRATEGY
 ----------------------------------------------------------------------------------------------------
-git checkout master
-# update master branch from the origin (last commit: a7578e95cbdbb47e)
-git fetch upstream
-git merge upstream/master
-# play/work in sanbox
-git checkout sanbox # (local sanbox branch)
-#work here and commit all changes
-#than rebase commited changes to the new updates from the origin
-git commit -a -m "some changes"
-git rebase a7578e95cbdbb47e 
+       $ git checkout master
+Update master branch from the origin (last commit: a7578e95cbdbb47e)
+       $ git fetch upstream
+       $ git merge upstream/master
+Play/work in sanbox
+       $ git checkout sanbox # (local sanbox branch)
+Work here and commit all changes
+Than rebase commited changes to the new updates from the origin
+       $ git commit -a -m "some changes"
+       $ git rebase a7578e95cbdbb47e
 ----------------------------------------------------------------------------------------------------
-#push to remote repository
-git remote add origin git@github.com:dcvetino/wmiirc.git
-git push -u origin master
+Push to remote repository
+     $ git remote add origin git@github.com:dcvetino/wmiirc.git
+     $ git push -u origin master
 
 -----------------------------------------------
-CHERRY-PICKING (MERGING ONLY SPECIFIC COMMITS 
+CHERRY-PICKING (MERGING ONLY SPECIFIC COMMITS
 FROM DIFFERENT BRANCH INTO THE CURRENT BRANCH)
 -----------------------------------------------
-# Apply the changes introduced by all commits that are ancestors of 
-# master but not of HEAD to produce new commits. 
-git cherry-pick ^HEAD master
-# Apply the changes introduced by the fifth and third last commits 
-# pointed to by master and create 2 new commits with these changes. 
-git cherry-pick master~4 master~2
-# Apply the change introduced by the commit at the tip of the master 
-# branch and create a new commit with this change.
-git cherry-pick master
+Apply the changes introduced by all commits that are ancestors of
+master but not of HEAD to produce new commits.
+      $ git cherry-pick ^HEAD master
+Apply the changes introduced by the fifth and third last commits
+pointed to by master and create 2 new commits with these changes.
+      $ git cherry-pick master~4 master~2
+Apply the change introduced by the commit at the tip of the master
+branch and create a new commit with this change.
+      $ git cherry-pick master
+-----------------------------------------------
 
 
 
