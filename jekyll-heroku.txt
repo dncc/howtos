@@ -1,12 +1,12 @@
-#generate site 
+#generate site
 jekyll (from site root)
 
 #start server locally
 jekyll --server
 
-# update on heroku 
+# update on heroku
 # (must git commit before this operation)
 git push heroku master (passphrase: metr..)
 
 #look at heroku log
-heroku log
+heroku logs
