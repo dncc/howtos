@@ -3,8 +3,8 @@ find . -type f -name "*.sw*" -exec rm -f {} \; #find all files inside dir (and i
 
 find . -name "FILE-TO-FIND"-exec rm -rf {} \;#if u want directories to remove as well then ->
 
-Alt + f                       #  move forward one word 
-Alt + b                       #  move forward one word 
+Alt + f                       #  move forward one word
+Alt + b                       #  move forward one word
 Alt + .                       #  Paste last executed command
 C + w                         #  Delete backwards
 head -30 /to/file | tail -10  #  Print last 10 of first 30 lines in the file
@@ -27,7 +27,7 @@ scp draganc@ab1:/home/proj_xcb/rails_application/db/xcb.db .
 ssh user@remote.com 'mkdir -p .ssh && cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub #uppend your public key to remote server
 ssh-copy-id user@remote.com #same as above
 ---
-cd && tar czv ./src | ssh user@remote.com 'tar xz' #send files at ~/src/ to remote.com:~/src/ 
+cd && tar czv ./src | ssh user@remote.com 'tar xz' #send files at ~/src/ to remote.com:~/src/
 ---
 mkdir -p ~/backup/remote.com
 cd !$
@@ -36,12 +36,12 @@ ssh user@remote.com 'cd public_html && tar cz remote.com' | tar xzv #copy site r
 ssh remote.com 'ps ax | grep [h]ttpd' # see if httpd is running on remote.com
 ---
 ssh -NT -L 9000:localhost:8000 remote.com # -L listen on local port 9000, to any process listenning
-# on remote.com:8000 it will look like it talks to local process. localhost is the remote machine we 
-# will connect to from the perspective of remote.com (so remote.com in this case). So for instance 
-# perhaps you have a work computer to which you have SSH access, and you have company intranet site 
+# on remote.com:8000 it will look like it talks to local process. localhost is the remote machine we
+# will connect to from the perspective of remote.com (so remote.com in this case). So for instance
+# perhaps you have a work computer to which you have SSH access, and you have company intranet site
 # at 192.168.10.10. You can't reach this from outside, but using an SSH tunnel you can!
 ssh -NT -L 8080:192.168.10.10:80 user@work-machine.com
-#so I connect to work-machine.com (with browser http://localhost:8080) and tunnel everithing to 192.168.10.10:80 
+#so I connect to work-machine.com (with browser http://localhost:8080) and tunnel everithing to 192.168.10.10:80
 ---
 ----------------------------------------------------------------------------------------------------
 #shell rename multiple files all gif -> jpg
@@ -51,7 +51,7 @@ for i in *.gif; do mv "$i" "${i/.gif}".jpg; done
 workingdir> svn ci .
 workingdir> mkdir ../clean_copy
 workingdir> cd ../clean_copy
-clean_copy> svn co svn://localhost:3690/xcash/trunk/rails_application  
+clean_copy> svn co svn://localhost:3690/xcash/trunk/rails_application
 #remove all but last five lines from the log file
 tail -5 error.log > error.log
 #svn co for particular revision
@@ -66,7 +66,7 @@ cat ~/.ssh/id_dsa.pub | ssh alch763@xcb 'cat >> .ssh/authorized_keys'
 #----------------------------------------------------------------
 #	XARGS
 #----------------------------------------------------------------
-# def: xargs is a command used to execute commands based on 
+# def: xargs is a command used to execute commands based on
 # arguments from standard input.
 
 #Recursively find all Ruby files and count the number of lines
@@ -76,39 +76,74 @@ find . -name '*.rb' | xargs wc -l
 find . -name '*~' | xargs rm
 
 #Recursively find all Ruby files and search them for the word ‘require’
-find . -name '*.rb' | xargs grep 'require' 
+find . -name '*.rb' | xargs grep 'require'
 
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
 # More shell less egg
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
 tr -cs A-Za-z '\n' |
 tr A-Z a-z |
 sort |
 uniq -c |
 sort -rn |
-sed ${1}q
-#---------------------------------------------------------------------- 
+sed ${1}
+#----------------------------------------------------------------------
 #Download with curl
-#---------------------------------------------------------------------- 
-curl -L -O <url> 
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
+curl -L -O <url>
+#----------------------------------------------------------------------
 # Bash's brace expansion (replacement for loops) http://www.gnu.org/software/bash/manual/bashref.html
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
 # No good deed goes unpunished
-for i in {1..19}; do 
-  echo "http://hackermonthly.com/xmas/hackermonthly-issue0"$i".zip"; 
+for i in {1..19}; do
+  echo "http://hackermonthly.com/xmas/hackermonthly-issue0"$i".zip";
 done | xargs wget
 
 # can be replaced by
-wget http://hackermonthly.com/xmas/hackermonthly-issue0{01..19}.zip 
+wget http://hackermonthly.com/xmas/hackermonthly-issue0{01..19}.zip
 # or with curl same
 curl -O "http://hackermonthly.com/xmas/hackermonthly-issue0[01-19].zip"
 # and for _auto resume_ if it disconnects in the middle
 curl -C - -O "http://hackermonthly.com/xmas/hackermonthly-issue0[01-19].zip"
-#-------------------------------------------------- 
+#--------------------------------------------------
 # rsync
-#-------------------------------------------------- 
-# when /source/dir/ has a '/' at the end than it 
+#--------------------------------------------------
+# when /source/dir/ has a '/' at the end than it
 # does not copy itself only content of it
 rsync -avz --stats /from/src/dir/ /to/destination/
 
+
+#-------------check md5 sha1 checksums--------------
+openssl dgst [-md5|-sha1] <filename>
+
+#-------------find all files with path pattern------
+sudo find / -path "*oh-my-zsh*"
+
+#----------------- CUT -----------------------
+> cat file.txt
+unix or linux os
+is unix good os
+is linux good os
+
+#print 4th char of each line
+cut -c4 file.txt
+x
+u
+l
+#4th and 6th
+cut -c4,6 file.txt
+#range 4-7
+cut -c4-7 file.txt
+#first six
+cut -c-6 file.txt
+#print whole line
+cut -c- file.txt
+# delimiter ' ' print second field
+cut -d' ' -f2 file.txt
+# 2nd and 3rd field
+cut -d' ' -f2,3 file.txt
+cut -d':' -f1 /etc/passwd
+
+#prints file extensions, reverse names
+#so extension is first, delimit and print
+rev filenames.txt | cut -d'.' -f1
