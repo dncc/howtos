@@ -37,7 +37,7 @@ git checkout -b about master
 git branch about2 about
 #Before you switch branches, add another language to your about.html file, and commit your change:
 prompt> git commit -m "add Javascript to list" -a
-#Switch over to about2. 
+#Switch over to about2.
 git checkout about2
 
 #Add another name to about.html on the same line where you added your last entry, but this time make it something different.
@@ -114,7 +114,7 @@ $ git diff 1b6d "master~2"
 #In each case the output is a patch that can be applied with git apply. Try also:
 $ git whatchanged --since="2 weeks ago"
 
-#Let A, B, C, D be four successive commits where B is the same as A except some files have 
+#Let A, B, C, D be four successive commits where B is the same as A except some files have
 #been removed. We want to add the files back at D. How can we do this?
 #There are at least three solutions. Assuming we are at D:
 #The difference between A and B are the removed files. We can create a patch representing this difference and apply it:
@@ -138,12 +138,12 @@ git diff --staged
 
 3. When a repo is cloned, it has a default remote called origin that points to your fork on GitHub,
    not the original repo it was forked from. To keep track of the original repo,
-   you need to add another remote named upstream: 
+   you need to add another remote named upstream:
 
    $ git remote add upstream git://github.com/octocat/Spoon-Knife.git
    $ git fetch upstream
 
-4. Pull commits 
+4. Pull commits
    $ git merge upstream/master
 
 SANBOXING STRATEGY
@@ -157,21 +157,21 @@ git checkout sanbox # (local sanbox branch)
 #work here and commit all changes
 #than rebase commited changes to the new updates from the origin
 git commit -a -m "some changes"
-git rebase a7578e95cbdbb47e 
+git rebase a7578e95cbdbb47e
 --------------------------------------------------------------------------------------------
-gitignore files 
+gitignore files
 --------------------------------------------------------------------------------------------
-There is one gotcha. If you commit files and then add them to the .gitignore file, 
+There is one gotcha. If you commit files and then add them to the .gitignore file,
 "git status" will show these ignored files in your untracked files ready for a commit.
 
-In order to get around this, you have to remove the files from the git index with 
-"git rm -cached " This will take it out of the "git status" command. Warning if you 
-just run "git rm ," it will delete the file, which may not be what you want to do. 
+In order to get around this, you have to remove the files from the git index with
+"git rm -cached " This will take it out of the "git status" command. Warning if you
+just run "git rm ," it will delete the file, which may not be what you want to do.
 The "cached" is important.
 
-There is an alternative way to do this, if the rm command makes you uncomfortable, 
-that is, using the "git-update-index --remove " command to modify the current working 
-index and directory cache. Both of these methods will clear previously committed, 
+There is an alternative way to do this, if the rm command makes you uncomfortable,
+that is, using the "git-update-index --remove " command to modify the current working
+index and directory cache. Both of these methods will clear previously committed,
 but now ignored files, out of your git status, and have them ignored in your repository.
 --------------------------------------------------------------------------------------------
 git diff branches
@@ -179,7 +179,7 @@ git diff branches
 git diff master..branch2
 --------------------------------------------------------------------------------------------
 # Clone pull from remote repo, then to view all available branches locally:
-git branch -a 
+git branch -a
 * master
   remotes/origin/HEAD -> origin/master
   remotes/origin/develop
@@ -194,7 +194,7 @@ git checkout -b develop origin/develop
 # into your current working dir w/o swhitching branches
 git checkout <BRANCH> --path/to/file.rb
 # stage line by line
-git add -p 
+git add -p
 # search commit message w/ 'stupid' word)
 git show :/stupid
 # same as > cd -
@@ -210,7 +210,7 @@ git log branchA ^branchB
 git fsck --lost-found
 # show stats
 git diff HEAD^ --stat
-# if text moves between B A 
+# if text moves between B A
 # it will blame original commit not when
 # the line was moved to different file
 git blame -M
@@ -240,3 +240,4 @@ git fetch <remote_repo_name>
 # then we cherry pick by commit sha1
 git cherry-pick <sha1>
 ------------------------------------------------------------------------
+
