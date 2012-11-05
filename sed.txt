@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 #change foo to bar in all *.rb  files
 sed -i 's/foo/bar/g' `ls **/*.rb`
-
-=======
 -------------------------------------------------------------------------
 USEFUL ONE-LINE SCRIPTS FOR SED (Unix stream editor)        Dec. 29, 2005
 Compiled by Eric Pement - pemente[at]northpark[dot]edu        version 5.5
@@ -453,5 +450,3 @@ written or contributed by:
  Ken Pizzini              # author of GNU sed v3.02
  S.G. Ravenhall           # great de-html script
  Greg Ubben               # many contributions & much help
--------------------------------------------------------------------------
->>>>>>> 6ea5126... Add awk, sed and new Git tricks
