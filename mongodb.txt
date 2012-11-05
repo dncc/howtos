@@ -8,3 +8,16 @@ show dbs
 use db
 show collections
 db.collection.help()
+
+#dump collection from database
+mongodump --db mktb_development --collection shares --out - > <filename>.bson
+#restore collection from dump
+mongorestore --db mktb_development --collection shares ./<filename>.bson
+
+#windows install
+mongod --install #installs mongo deamon as a windows service
+mongod --service
+mongod --remove  #removes mongo deamon as a windows service
+mongod --reinstall
+#logs has to be a file, and since it's under windows we should use MSC rather than Cygwin paths
+mongod --logpath c:/data/mongo/logs --logappend  --dbpath c:/data/mongo/db --directoryperdb --install
