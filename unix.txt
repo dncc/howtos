@@ -78,6 +78,10 @@ find . -name '*~' | xargs rm
 #Recursively find all Ruby files and search them for the word ‘require’
 find . -name '*.rb' | xargs grep 'require'
 
+# Will find all log files over 2 gigs and older than 3 days.
+# Then it will gzip them split across 8 parallel gzip processes.
+find ./ -name "*.log" -size +2G -ctime +3 | xargs -P 8 gzip
+
 #----------------------------------------------------------------------
 # More shell less egg
 #----------------------------------------------------------------------
