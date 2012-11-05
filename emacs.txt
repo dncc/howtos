@@ -5,3 +5,6 @@
 #    (may be mit-scheme or smth else, default is scheme)
 # 2. M-x run-scheme
 # 3. C-c C-e, C-x C-e for last definition and last expression respectively
+
+#-------SPELL CHECKING ----------------------
+M-x ispell-buffer
