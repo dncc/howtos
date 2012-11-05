@@ -12,7 +12,7 @@ g_ - last  non blank char in the line
 #------------------
 # golden commands
 #------------------
-*  
+*
 # # go to next/previous occurence of the word
 % # goto corresponding (, {, [
 
@@ -32,22 +32,25 @@ gUe    - to upper case until the end of the current word
 3. $	 - go to the end of line (select whole block)
 4. A	 - enter text at the end of line
 5. <C-[> - exit insert mode
-#------------------------------ 
+#------------------------------
 # postwriting sudo save
-#------------------------------ 
+#------------------------------
 :w !sudo tee %
-#------------------------------ 
+#------------------------------
 # execute outer command and output it to the vim buffer
-#------------------------------ 
+#------------------------------
 :.! ls
 :.! date -> Mon Aug 29 23:09:30 CEST 2011
-#------------------------------ 
-# vim into hex editor 
-#------------------------------ 
-:%!xxd  
-#------------------------------ 
-# move forward backward through changelist 
-#------------------------------ 
+#------------------------------
+# vim into hex editor
+#------------------------------
+:%!xxd
+#------------------------------
+# move forward backward through changelist
+#------------------------------
 g;
 g,
-
+#-------------------------------
+# remove BOMB windows beginning file char
+#-------------------------------
+:set nobomb
