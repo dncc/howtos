@@ -234,4 +234,9 @@ git shortlog -sn
 # sets comments author as sameone else
 git credit "Linus Torvald" torvalds@linux.com
 ------------------------------------------------------------------------
-
+# Cherry-pick commit from remote repository
+# First we need to fetch remote repo
+git fetch <remote_repo_name>
+# then we cherry pick by commit sha1
+git cherry-pick <sha1>
+------------------------------------------------------------------------
