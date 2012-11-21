@@ -139,3 +139,5 @@ pacman -Rs package_name
 pacman -Qs package_name
 
 ------------------------------------------------
+#save alsamixer settings 
+sudo alsactl store
