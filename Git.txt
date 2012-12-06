@@ -302,3 +302,6 @@ git merge better_branch
 # You can change the second step to:
 git merge --strategy=ours --no-commit master
 git commit # here add your custom message to the commit template
+#--------------------------------------------------------------------------
+# break line long messages
+git commit -m $'very very\nvery long\nmessage.'
