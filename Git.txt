@@ -240,4 +240,65 @@ git fetch <remote_repo_name>
 # then we cherry pick by commit sha1
 git cherry-pick <sha1>
 ------------------------------------------------------------------------
-
+# Edit last incorrect commit message
+git commit --amend -m "New commit message"
+# this is equivalent to :
+git reset --soft HEAD^
+# ... do something else to come up with the right tree ...
+git commit -c ORIG_HEAD
+------------------------------------------------------------------------
+# reset --hard w/ keeping the unstaged changes (keep the working code):
+git stash
+git reset --hard 0d1d7fc32
+git stash pop
+# This saves the modifications, then reapplies that patch after resetting.
+# You could get merge conflicts, if you've modified things which were
+# changed since the commit you reset to
+-------------------------------------------------------------------------
+# 12 curated tips and workflows from the trenhces
+-------------------------------------------------------------------------
+# making git diff wrap long lines: just type -S while viewing the diff
+git config core.pager 'less -r' # sets pager for current project
+git config --global core.pager 'less -r' # set pager globaly for all projects
+# set global proxy
+git config --global https.proxy https://user:password@address:port
+# sometimes you want to clone just one branch, to clone a branch without fetching
+# other branches:
+mkdir $BRANCH
+cd $BRANCH
+git init
+git remote add -t $BRANCH -f origin $REMOTE_REPO  # where $REMOTE_REPO is host:/dir.git
+git checkout $BRANCH
+# diff file against remote branch
+git diff localbranch remotebranch filepath
+--------------------------------------------------------------------------
+# list all deleted files in the repository
+git log --dif-filter=D --summary
+# Restore a deleted file in a Git repo
+# * When I know when that file was deleted:
+git checkout HEAD^ foo.bar
+# * When I don't know when the file was deleted:
+#   1. find the commit that deleted the given file
+#      find the last commit that affected the given
+#      path (-n 1 outputs only last commit):
+git rev-list -n 1 HEAD -- <file_path>
+#   2. get that file back into the working copy
+#      (checkout the version at the commit before):
+git checkout <deleting_commit>^ -- <file_path>
+--------------------------------------------------------------------------
+# search through the entire git diff history for a string
+# you know it is somewhere but don't know where
+git rev-list --all | (
+    while read revision; do
+        git grep -F 'Your search string' $revision
+    done
+)
+# making a more recent(better) branch the new master
+git checkout better_branch
+git merge --strategy=ours master
+git checkout master
+git merge better_branch
+# If you want your history to be a little clearer, you can customize the commit message.
+# You can change the second step to:
+git merge --strategy=ours --no-commit master
+git commit # here add your custom message to the commit template
