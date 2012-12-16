@@ -82,6 +82,11 @@ find . -name '*.rb' | xargs grep 'require'
 # Then it will gzip them split across 8 parallel gzip processes.
 find ./ -name "*.log" -size +2G -ctime +3 | xargs -P 8 gzip
 
+# list files, grep file w/ 'forth' word and open it w/ evince
+# "foo" can be any string, for instance "{}", -I option means
+# take result of grep and replace foo w/ it
+ls ~/downloads/books | grep forth | xargs -Ifoo evince ~/downloads/books/foo &
+
 #----------------------------------------------------------------------
 # More shell less egg
 #----------------------------------------------------------------------
@@ -151,3 +156,6 @@ cut -d':' -f1 /etc/passwd
 #prints file extensions, reverse names
 #so extension is first, delimit and print
 rev filenames.txt | cut -d'.' -f1
+#----------------- GREP -----------------------
+#grep w/ surrounding lines
+grep -B 2 -A 3 foo README.txt
