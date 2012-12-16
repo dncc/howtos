@@ -141,3 +141,7 @@ pacman -Qs package_name
 ------------------------------------------------
 #save alsamixer settings 
 sudo alsactl store
+------------------------------------------------
+# see free memory
+free -m
+
