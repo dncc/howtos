@@ -450,3 +450,7 @@ written or contributed by:
  Ken Pizzini              # author of GNU sed v3.02
  S.G. Ravenhall           # great de-html script
  Greg Ubben               # many contributions & much help
+#------------------------------------------------------------------------
+# find all ruby file and replace Xportable with Knittr
+find . -name '*.rb' | xargs sed -i 's/xportable/knittr/g'
+
