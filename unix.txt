@@ -159,3 +159,11 @@ rev filenames.txt | cut -d'.' -f1
 #----------------- GREP -----------------------
 #grep w/ surrounding lines
 grep -B 2 -A 3 foo README.txt
+#----------------- PATCH -----------------------
+# apply patch from .diff file
+patch < foo.diff
+# reverse patch previously applied from .diff file
+patch -R < foo.diff
+
+
+
