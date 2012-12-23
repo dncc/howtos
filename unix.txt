@@ -186,3 +186,7 @@ exit OR ^D
 C-c, C-c
 # reconfigure/reconect to other screen
 C-c, v
+#------------------ UTILITY -------------------
+# list all dotfiles, remove dots, rename .file to file
+ls .* | sed s/\.// | xargs -Ifile mv .file file
+
