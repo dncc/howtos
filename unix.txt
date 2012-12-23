@@ -164,6 +164,25 @@ grep -B 2 -A 3 foo README.txt
 patch < foo.diff
 # reverse patch previously applied from .diff file
 patch -R < foo.diff
-
-
-
+#----------------- SCREEN ----------------------
+# list all screen sessions
+screen -ls
+# start screen session with name ruby
+screen -S ruby
+# kill screen session with name ruby
+screen -S ruby -X quit
+# detach and reconnect to a screen w/ name ruby
+^A d            #detach
+screen -r ruby  #reconnect
+# create and destroy new window in current session
+^A c
+exit OR ^D
+# list all windows for current session
+^A "
+# select 0 window
+^A 0
+#----------------- VIM SLIME -------------------
+# send selected txt to screen session
+C-c, C-c
+# reconfigure/reconect to other screen
+C-c, v
