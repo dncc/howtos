@@ -190,3 +190,20 @@ C-c, v
 # list all dotfiles, remove dots, rename .file to file
 ls .* | sed s/\.// | xargs -Ifile mv .file file
 
+# split PATH into its components
+tmp > echo $PATH | tr ":" "\n" | sort
+
+#extract audio from a bunch of mp4 files
+for i in *.mp4; do ffmpeg -i "$i" "${i/.mp4}.mp3"; done
+
+#------------------ ZIP ------------------------
+# add some files to a file called abc.zip:
+zip abc file1 file2 file3
+# copy a whole directory tmp into abc.zip:
+zip -r abc tmp
+# creating a password protected archives
+zip -e important.zip file1 file2
+# list the files inside an archive
+unzip -l a.zip
+
+
