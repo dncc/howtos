@@ -206,4 +206,15 @@ zip -e important.zip file1 file2
 # list the files inside an archive
 unzip -l a.zip
 
+#------------- ruby, python, perl ---------------
+# => bla bla
+echo "puts 'bla bla'" | ruby --
+# => 1, 2, 3, ..., 10
+ruby -- <<EOL
+  (1..10).each{ |i| puts i }
+EOL
+# => bla bla
+ruby -e "puts 'bla bla'"
+
+
 
