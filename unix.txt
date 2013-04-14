@@ -120,6 +120,9 @@ curl -C - -O "http://hackermonthly.com/xmas/hackermonthly-issue0[01-19].zip"
 # when /source/dir/ has a '/' at the end than it
 # does not copy itself only content of it
 rsync -avz --stats /from/src/dir/ /to/destination/
+# for instance:
+rsync -avz --stats /etc/adobe/ /media/DNC_/BACKUP/etc/adobe
+# rsyncs /etc/adobe/ dir with /media/DNC_/BACKUP/etc/adobe/ dir
 
 
 #-------------check md5 sha1 checksums--------------
@@ -216,5 +219,52 @@ EOL
 # => bla bla
 ruby -e "puts 'bla bla'"
 
+#---------- list open files for a proces -------
+lsof -nPp <pid>
+#-------- trace system calls and signals -------
+# -c count time, calls and errors for each sys call
+# -p attach to the process and begin tracing
+strace -cp <pid>
+# output for rails s (ruby process)
+# % time     seconds  usecs/call     calls    errors syscall
+# ------ ----------- ----------- --------- --------- ----------------
+#  99.05    0.240001        2526        95           select
+#   0.95    0.002304         100        23         1 futex
+#   0.00    0.000000           0         2           write
+#   0.00    0.000000           0        18           fstat
+#   0.00    0.000000           0         3           mmap
+#   0.00    0.000000           0         2           mprotect
+#   0.00    0.000000           0         1           brk
+#   0.00    0.000000           0         6           accept
+#   0.00    0.000000           0         6           clone
+#   0.00    0.000000           0        18           fcntl
+#   0.00    0.000000           0         5           ppoll
+# ------ ----------- ----------- --------- --------- ----------------
+# 100.00    0.242305                   179         1 total
 
+# -t prefix each line w/ the time of day
+# -tt include microseconds
+# -T show the time spent in sys calls
+# -o filename write trace output to the filename rather than to stderr
+strace --ttTp <pid> -o <file>
+
+#------- gdb ----------------------------
+gdb <program>
+gdb <program> <pid>
+
+# start breakpoint on function "average"
+b average
+# run program
+run
+# show backtrace/function stack
+bt
+# single step
+s
+# print variables
+p avg
+p sum
+#----------------- untar bz2, bz files --------------------
+# extract bz files
+tar -xjvf <filename>.tar.bz2
+tar -zxvf <filename>.tar.bz2
 

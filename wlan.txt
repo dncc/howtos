@@ -4,9 +4,9 @@ ip link
 sudo ip link set wlan0 up
 # scan networks within reach
 sudo iwlist wlan0 scan
-# connect to "dlink" network 
+# connect to "dlink" network
 sudo iwconfig wlan0 essid "dlink" (key <hexadecimal_key>)?
 sudo iwconfig wlan0 essid "dlink" (key s:<ascii_key>)?
-# start up 
+# start up
 sudo ifconfig wlan0 up
 sudo dhclient wlan0

@@ -3,7 +3,7 @@
 2. Install vbetool and acpi(need them for pm-utils to work)
 3. Standby/Suspend to RAM should be imidiatelly enabled with
    sudo pm-suspend command
-4. Standby/Suspend to disk (Hibernation) needs some additional   configuration: 
+4. Standby/Suspend to disk (Hibernation) needs some additional   configuration:
 	4.1 add to /boot/grub/menu.lst (config file for grub1)
 	    'resume=/path/to/swap/drive' (/dev/sda5 on my mac
 	    since /dev/sda3 is /boot partition and /dev/sda4
@@ -14,33 +14,33 @@
 		root   (hd0,2)
 		kernel /vmlinuz-linux root=/dev/sda4 ro
 		initrd /initramfs-linux.img
-	    
-	   as follows: 
+
+	   as follows:
 	        kernel /vmlinuz-linux root/dev/sda4 resume=/dev/sda5 ro
 
-	4.2 resume hook should be added to 
+	4.2 resume hook should be added to
             /etc/mkinitcpio.conf in the following line:
 		HOOKS="base udev autodetect ide scsi sata lvm2 resume filesystems "
             it is important to place resume after ide,scisi, 	          sata and lvm2 and before filesystems.
-	    After this edit recreate linux image by: 
+	    After this edit recreate linux image by:
 
 	    	'mkinitcpio -p linux' command
-	 
-	4.3 set user permissions for pm-utils in 
+
+	4.3 set user permissions for pm-utils in
 	    /etc/sudoers as follows:
 
 	    	<username> <hostname>=NOPASSWD: /usr/sbin/pm-hibernate, /usr/sbin/pm-suspend
-	    	(replace <username> and <hostname> with 
+	    	(replace <username> and <hostname> with
 	         acctual values)
-	4.4. Add aliases in your ~/.bashrc or ~/.zshrc 
+	4.4. Add aliases in your ~/.bashrc or ~/.zshrc
 
 	     	alias hibernate="sudo pm-hibernate"
 	     	alias suspend="sudo pm-suspend"
 
 	     and you are good to go! happy hacking.
 
-	
-  	
+
+
 
 
 #how to install package with pacman localy after download
@@ -49,12 +49,12 @@ cd <package_name>
 makepkg
 sudo pacman -U <package_name>.pkg.tar.xz
 
-#install envy code r font with packer 
+#install envy code r font with packer
 #after downloading & installing packer
 #as it is already described above
 sudo packer -S ttf-envy-code-r
 
-#xorg.conf configure 
+#xorg.conf configure
 vi /etc/X11/xorg.conf
 
 Section "ServerLayout"
@@ -120,7 +120,7 @@ EndSection
 ------------------------------------------------
 # set cyrilic layout
 # first install xorg-xkbevd and add xkbevd to rc.conf daemons section
-# one possibility is to create /etc/X11/xorg.conf.d/01-keyboard.conf file 
+# one possibility is to create /etc/X11/xorg.conf.d/01-keyboard.conf file
 # as follows: (/usr/share/X11/xkb/rules/xorg.lst has all grp: options/key kombinations)
        Section "InputClass"
                Identifier             "keyboard0"
@@ -128,20 +128,34 @@ EndSection
                Option "XkbLayout"     "us, rs"
                Option "XkbOptions"    "grp:alt_shift_toggle"
        EndSection
-# Since this didn't work for me I simply put the 
+# Since this didn't work for me I simply put the
 # following line in .xinitrc (before wmii command)
 setxkbmap -layout "us, rs" -option "grp:alt_shift_toggle"
 -------------------------------------------------
-#remove pkg w/ pacman w/ and its dependencies 
-#which are not required by any other pkg
+# remove pkg w/ pacman w/ and its dependencies
+# which are not required by any other pkg
 pacman -Rs package_name
-#see if pkg is installed
+# see if pkg is installed
 pacman -Qs package_name
-
+# see what packages belong to the gnome group
+pacman -Sg firefox
+# partial sync/upgrade (just given package)
+# warning: this shouldn't be done, it can
+# install newer version of packages which
+# some other packages denpend on so it can
+# break the other packages and cause some
+# odd behaviour, so very carefull w/ this
+pacman -Sy firefox
 ------------------------------------------------
-#save alsamixer settings 
+#save alsamixer settings
 sudo alsactl store
 ------------------------------------------------
 # see free memory
 free -m
+------------------------------------------------
+#list all usb devices
+lsusb
+#list devices w/ fdisk
+sudo fdisk -l /dev/sdb
+
 

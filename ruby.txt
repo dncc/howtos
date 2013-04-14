@@ -4,3 +4,15 @@ bundle gem <pname>
 #you should git init & git add . & git commit -m ""
 #building (only git commit files)
 rake build
+
+#list all available ruby version for install
+rbenv install --list
+# output:
+# 1.8.7-rc1
+# ...
+# 2.0.0-rc1
+# ...
+# maglev-1.0.0
+# ...
+#install particular version
+rbenv install 2.0.0-rc1

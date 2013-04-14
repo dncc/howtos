@@ -1,14 +1,20 @@
-#install mysql, start deamon, and run installation script
-pacman -S mysql
-sudo rc.d start mysqld && mysql_secure_installation
-#after install restart it
-sudo rc.d start|stop|restart mysqld
-# To start MySQL automatically at boot, edit 
-# /etc/rc.conf and add mysqld to the DAEMONS array. 
+# migrate from mysql to mariadb
+systemctl stop mysqld
+pacman -S mariadb libmariadbclient mariadb-clients
+systemctl start mysqld
+mysql_upgrade -p
 
-#start mysql console
+# start stop and restart mariadb
+sudo systemctl start|stop|restart mysqld
+sudo rc.d start|stop|restart mysqld
+
+# To start MySQL automatically at boot, edit
+# /etc/rc.conf and add mysqld to the DAEMONS array.
+
+
+# start mysql console
 mysql -u root -p
-#import sqldump script
+# import sqldump script
 mysql -u root -p < dump.sql
-#create sqldump script
+# create sqldump script
 mysqldump -u root -p db_name > file_name.sql
