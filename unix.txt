@@ -122,8 +122,10 @@ curl -C - -O "http://hackermonthly.com/xmas/hackermonthly-issue0[01-19].zip"
 rsync -avz --stats /from/src/dir/ /to/destination/
 # for instance:
 rsync -avz --stats /etc/adobe/ /media/DNC_/BACKUP/etc/adobe
-# rsyncs /etc/adobe/ dir with /media/DNC_/BACKUP/etc/adobe/ dir
-
+# if you want to delete files in destination directory
+# that does not exists anymore in source directory
+# use --delete option
+rsync -avz --stats --delete /from/src/dir/ /to/destination/
 
 #-------------check md5 sha1 checksums--------------
 openssl dgst [-md5|-sha1] <filename>
@@ -267,4 +269,14 @@ p sum
 # extract bz files
 tar -xjvf <filename>.tar.bz2
 tar -zxvf <filename>.tar.bz2
+#----------------- screen ---------------------------------
+# list all available (active screens)
+screen -ls
+# reconnect to the active (detached) screen
+screen -dr <screen-name>
+# end screen from within the session
+exit
+# kill the detached screen session by
+# pid (get it with 'session -ls')
+screen -S <session-pid> -X quit
 

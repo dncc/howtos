@@ -6,13 +6,21 @@ bundle gem <pname>
 rake build
 
 #list all available ruby version for install
-rbenv install --list
-# output:
+chruby
 # 1.8.7-rc1
 # ...
 # 2.0.0-rc1
 # ...
 # maglev-1.0.0
 # ...
-#install particular version
-rbenv install 2.0.0-rc1
+#install a particular version
+wget http://ftp.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p0.tar.gz
+tar -xzvf ruby-2.0.0-p0.tar.gz
+cd ruby-2.0.0-p0
+./configure --prefix=/home/dnc/.rubies/ruby-2.0.0-p0
+make
+sudo make install
+
+
+# unpack .gem file
+gem unpack <gem-name>.gem
