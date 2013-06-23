@@ -330,4 +330,8 @@ git commit -m $'very very\nvery long\nmessage.'
 # If origin does not have a plugin branch, it is created on the fly
 git push -u origin plugin
 
-
+# Say a friend wants to access the new branch on the GitHub.
+git fetch origin                    # Updates his repo with the changes from the remote.
+git checkout --track origin/plugin  # Creates a local branch named plugin that matches
+                                    # the origin/plugin branch and tells git that he wants to
+                                    # be able to easily push and pull from the branch on GitHub.
