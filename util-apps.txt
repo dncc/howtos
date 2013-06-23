@@ -1,0 +1,4 @@
+# ---------------- fbreader --------------------
+# set keymappings
+sudo gvim /usr/share/FBReader/default/keymap.xml
+# ----------------------------------------------
