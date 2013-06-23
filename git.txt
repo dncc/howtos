@@ -1,76 +1,52 @@
-#creating repository
 -----------------------------------------------------------------------
-#In this example, we?re going to create a
-#simple HTML page, so let?s call our project mysite. You need to create
-#a directory of the same name; then change into it, and type git init. The
-#whole process should look something like this:
-mkdir mysite
-cd mysite
-git init
-# => Initialized empty Git repository in /cygdrive/r/workspace/Sandbox/mysite/.git/
-#You?re done. You now have a Git repository that is ready to start tracking
-#your project.
+# CREATE A NEW BRANCH CALLED ABOUT
 -----------------------------------------------------------------------
-#tell Git we want to track some files (index.html for instance).
------------------------------------------------------------------------
-#This is a two-step process. First we have to tell Git to
-#add the file to its index using the command git add; then we create a
-#commit using git commit.
+# checkout to about branch (all working tree state will be moved to it,
+# i.e. all uncommited changes in the master branch)
+git checkout -b about [master]
 
-prompt> git add index.html
-prompt> git commit -m "add in hello world HTML"
-
-#  => [master (root-commit) 1e776a3] add in hello world HTML
-#  => 1 files changed, 5 insertions(+), 0 deletions(-)
-#  => create mode 100644 index.html
------------------------------------------------------------------------
-#You can see your commit by running git log:
------------------------------------------------------------------------
------------------------------------------------------------------------
-# Resolving conflicts
------------------------------------------------------------------------
-#create a new branch called about to add our work in:
-git checkout -b about master
-#Switched to branch "about"
-
-#create a second branch called about2, but don’t switch to it:
+#create a second branch about2, but don’t switch to it:
 git branch about2 about
-#Before you switch branches, add another language to your about.html file, and commit your change:
-prompt> git commit -m "add Javascript to list" -a
-#Switch over to about2.
+
+-----------------------------------------------------------------------
+# RESOLVING CONFLICTS
+-----------------------------------------------------------------------
+# add another language to your about.html file, and commit your change:
+git commit -m "add Javascript to list" -a
+
+# switch over to about2.
 git checkout about2
 
-#Add another name to about.html on the same line where you added your last entry, but this time make it something different.
+# add another name to about.html on the same line where you added your last entry,
+# but this time make it something different.
 git commit -m "add EMCAScript to list" -a
-#Start by switching back to about, and then try merging about2 into it:
+
+# start by switching back to about, and then try merging about2 into it:
 git checkout about
+
 #Switched to branch "about"
 git merge about2
-#Auto-merged about.html
-#CONFLICT (content): Merge conflict in about.html
-#Automatic merge failed; fix conflicts and then commit the result.
 
+#CONFLICT (content): Merge conflict in about.html
 git mergetool
-#Merging the files: about.html
-#Normal merge conflict for 'about.html':
-#{local}: modified
-#{remote}: modified
 #Hit return to start merge resolution tool (opendiff):
+
 -------------------------------------------------------
-BACKUP
+# BACKUP
 -------------------------------------------------------
 git init --bare share #on usb or backup drive
 cd <origin>
 git remote add backup /path/to/the/backup/dir
 git push backup master
+
 -------------------------------------------------------
-RETRIEVING BACKUP
+# RETRIEVING BACKUP
 -------------------------------------------------------
 git pull backup master
 -------------------------------------------------------
 
 -------------------------------------------------------
-SEE RECENT HISTORY
+# SEE RECENT HISTORY
 -------------------------------------------------------
 gitk <filename>
 git log -p <filename>
@@ -78,23 +54,41 @@ git log --graph --pretty=oneline --abbrev-commit --decorate #short log output
 git log --follow -p <filename>
 git whatchanged -p <filename>
 
--------------------------------------------------------
+# see all branches, not just the current
+git log --graph --all
 
-UNDO COMMIT
 -------------------------------------------------------
-#the safest way is to rebase interactivelly
+# UNDO COMMIT
+-------------------------------------------------------
+# the safest way is to rebase interactivelly
 git rebase -i HEAD^^
-#non reversible, will delete current commit and all changes in working tree
-#and it will set current commit to the parrent of the deleted one
+
+# undo commit, but leave your files and your index
+# (move HEAD ptr to the previous commit)
+# all changes are still staged (still in index so if we do
+# git commit again we will undo undo, return at the beginning)
+git reset --soft HEAD~1
+
+# undo the commit, but leave files in the working tree
+# (unstages the changes and removes last commit)
+git reset HEAD~1
+
+# non reversible, deletes current commit and all changes
+# in working tree sets current commit to the parent of the deleted one
+git reset --hard HEAD~1
+# or same
 git reset --hard HEAD^
-#also we can revert commit but it will add more commit messages to the history
+
+# revert commit, but add more commit messages to the history
 git revert HEAD~3 #(HEAD~3 is the same as HEAD^^^)
 
-VIEW DIFFS OF SAME FILE IN DIFFERENT COMMITS
+-------------------------------------------------------
+# VIEW DIFFS OF SAME FILE IN DIFFERENT COMMITS
 -------------------------------------------------------
 git diff HEAD:Git.txt HEAD^:Git.txt
 
-UNDO COMMIT
+-------------------------------------------------------
+# UNDO COMMIT
 -------------------------------------------------------
 $ git commit -a
 $ git revert 1b6d
@@ -237,13 +231,24 @@ git credit "Linus Torvald" torvalds@linux.com
 # Cherry-pick commit from remote repository
 # First we need to fetch remote repo
 git fetch <remote_repo_name>
+
 # then we cherry pick by commit sha1
 git cherry-pick <sha1>
+
+# cherry pick just parts of a particular commit: -n = --no-commit
+# option says pick this <sha1> but don't commit to the current branch
+git cherry-pick -n <sha1>
+git reset    # unstage changes from <sha1> commit
+git add -p   # make choice what to add to the commit
+git commit   # commit
+
 ------------------------------------------------------------------------
 # Edit last incorrect commit message
 git commit --amend -m "New commit message"
+
 # this is equivalent to :
 git reset --soft HEAD^
+
 # ... do something else to come up with the right tree ...
 git commit -c ORIG_HEAD
 ------------------------------------------------------------------------
@@ -258,33 +263,41 @@ git stash pop
 # 12 curated tips and workflows from the trenhces
 -------------------------------------------------------------------------
 # making git diff wrap long lines: just type -S while viewing the diff
-git config core.pager 'less -r' # sets pager for current project
-git config --global core.pager 'less -r' # set pager globaly for all projects
+git config core.pager 'less -r'          # sets pager for current project
+git config --global core.pager 'less -r' # sets pager globally for all projects
+
 # set global proxy
 git config --global https.proxy https://user:password@address:port
-# sometimes you want to clone just one branch, to clone a branch without fetching
-# other branches:
+
+# sometimes you want to clone just one branch,
+# to clone a branch w/o fetching other branches:
 mkdir $BRANCH
 cd $BRANCH
 git init
 git remote add -t $BRANCH -f origin $REMOTE_REPO  # where $REMOTE_REPO is host:/dir.git
 git checkout $BRANCH
+
 # diff file against remote branch
 git diff localbranch remotebranch filepath
+
 --------------------------------------------------------------------------
 # list all deleted files in the repository
 git log --dif-filter=D --summary
+
 # Restore a deleted file in a Git repo
 # * When I know when that file was deleted:
 git checkout HEAD^ foo.bar
+
 # * When I don't know when the file was deleted:
 #   1. find the commit that deleted the given file
 #      find the last commit that affected the given
 #      path (-n 1 outputs only last commit):
 git rev-list -n 1 HEAD -- <file_path>
+
 #   2. get that file back into the working copy
 #      (checkout the version at the commit before):
 git checkout <deleting_commit>^ -- <file_path>
+
 --------------------------------------------------------------------------
 # search through the entire git diff history for a string
 # you know it is somewhere but don't know where
@@ -293,15 +306,18 @@ git rev-list --all | (
         git grep -F 'Your search string' $revision
     done
 )
+
 # making a more recent(better) branch the new master
 git checkout better_branch
 git merge --strategy=ours master
 git checkout master
 git merge better_branch
+
 # If you want your history to be a little clearer, you can customize the commit message.
 # You can change the second step to:
 git merge --strategy=ours --no-commit master
 git commit # here add your custom message to the commit template
+
 #--------------------------------------------------------------------------
 # break line long messages
 git commit -m $'very very\nvery long\nmessage.'
