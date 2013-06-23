@@ -1,4 +1,6 @@
 # ---------------- fbreader --------------------
 # set keymappings
 sudo gvim /usr/share/FBReader/default/keymap.xml
+# hide tool/menu bar, comment out everything in:
+sudo gvim /usr/share/FBReader/default/toolbar.xml
 # ----------------------------------------------
