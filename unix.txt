@@ -280,3 +280,31 @@ exit
 # pid (get it with 'session -ls')
 screen -S <session-pid> -X quit
 
+#----------------- xclip ---------------------------------
+# save ls to the _primary_ (middle-click) clipboard
+# (you can paste w/ middle mouse button)
+# (same holds if you select text region, you can paste it w/ m.m. button)
+ls | xclip
+
+# print content of _primary_ clipboard to the stdout
+xclip -o
+#or to test.txt
+xlicp -o > test.txt
+
+# paste it to the file
+<click middle-mouse-button>
+
+# put all contents of a file into the _primary_ clipboard
+xclip ~/test.txt
+
+# save ls to the _secondary_ (right-click) clipboard
+# (you can use ctrl+v or "+p to paste it)
+ls | xclip -selection c
+# or
+ls | xclip -sel c
+
+# print content of _secondary_ clipboard to the stdout
+xclip -o -sel c
+# or
+xclip -out -selection c
+
