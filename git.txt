@@ -320,4 +320,14 @@ git commit # here add your custom message to the commit template
 
 #--------------------------------------------------------------------------
 # break line long messages
+#--------------------------------------------------------------------------
 git commit -m $'very very\nvery long\nmessage.'
+
+#--------------------------------------------------------------------------
+# push new branch to remote git repository
+#--------------------------------------------------------------------------
+# Let's say a new branch is called plugin and remote repo is called origin
+# If origin does not have a plugin branch, it is created on the fly
+git push -u origin plugin
+
+
