@@ -148,8 +148,8 @@ git fetch upstream
 git merge upstream/master
 # play/work in sanbox
 git checkout sanbox # (local sanbox branch)
-#work here and commit all changes
-#than rebase commited changes to the new updates from the origin
+# work here and commit all changes than rebase
+# commited changes to the new updates from the origin
 git commit -a -m "some changes"
 git rebase a7578e95cbdbb47e
 --------------------------------------------------------------------------------------------
@@ -251,6 +251,15 @@ git reset --soft HEAD^
 
 # ... do something else to come up with the right tree ...
 git commit -c ORIG_HEAD
+
+# Amend last commit: we accidentally left something out of our
+# last commit (a file or a change to a file that is just committed)
+# stage the extra changes like for a normal commit and then commit
+# with the --amend argument:
+git add .
+git commit --amend
+# if we don't specify a commit message with -m we will be prompted
+# with the previous commit message as a default.
 ------------------------------------------------------------------------
 # reset --hard w/ keeping the unstaged changes (keep the working code):
 git stash
@@ -331,7 +340,39 @@ git commit -m $'very very\nvery long\nmessage.'
 git push -u origin plugin
 
 # Say a friend wants to access the new branch on the GitHub.
-git fetch origin                    # Updates his repo with the changes from the remote.
-git checkout --track origin/plugin  # Creates a local branch named plugin that matches
+git fetch origin                    # updates his repo with the changes from the remote.
+git checkout --track origin/plugin  # creates a local branch named plugin that matches
                                     # the origin/plugin branch and tells git that he wants to
                                     # be able to easily push and pull from the branch on GitHub.
+
+#--------------------------------------------------------------------------
+# Rebase
+#--------------------------------------------------------------------------
+# we have 2 branches: 'master' and 'bugfix'
+# we checkout 'master', and we want to rebase 'bugfix' on to 'master'
+#
+#         D --- E <- bugfix
+#        /
+# A --- B ----- C <- master*
+#
+git checkout bugfix
+git rebase master
+# or
+git rebase master bugfix
+# A --- B --- C --- D --- E <- bugfix*
+#             ^
+#             master
+#
+git branch -f master bugfix
+# A --- B --- C --- D --- E <- bugfix*
+#                              master
+git checkout master
+# A --- B --- C --- D --- E <- master*
+#                              bugfix
+git branch -d bugfix
+# A --- B --- C --- D --- E <- master*
+#
+#--------------------------------------------------------------------------
+# remove files from index w/o removing it from working tree
+#--------------------------------------------------------------------------
+git rm --cached <file>

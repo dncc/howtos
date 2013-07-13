@@ -1,4 +1,4 @@
-"convert hex to decimal 
+"convert hex to decimal
 echo $((0x022)) " => 34
 
 "number of cores == max average load
