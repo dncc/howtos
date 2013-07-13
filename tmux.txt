@@ -1,0 +1,27 @@
+# documentation: http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&sektion=1
+# configuration examples: /usr/share/doc/tmux/examples
+
+# load new config
+tmux source-file .tmux.conf
+tmux
+
+# new tmux session
+tmux new -s <sname>
+
+# kill session
+tmux kill-session -t <sname>
+# or from within it
+exit
+
+# list sessions
+tmux list-sessions
+
+# attach to session <sname>
+tmux attach -t <sname>
+
+# synchronize multiple window panes
+# if you want to type same thing in different windows
+<bind> :setw synchronize-panes on
+
+# turn off synchronization of multiple window panes
+<bind> :setw synchronize-panes off
