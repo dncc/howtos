@@ -25,3 +25,9 @@ tmux attach -t <sname>
 
 # turn off synchronization of multiple window panes
 <bind> :setw synchronize-panes off
+
+# scroll with <Ctrl-U> <Ctrl-D>, j, k, l, h
+# enter scroll mode
+<Ctrl-w>[
+# quit scroll mode
+q
