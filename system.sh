@@ -31,3 +31,8 @@
 # Move default dirs (Downloads, Public, Music etc.) from $HOME
 # --------------------------------------------------------------
 # Edit $HOME/.config/user-dirs.dirs
+
+# Change xkb layout toggle shortcut to
+# ----------------------------------------------
+# ctrl+alt: edit /etc/default/keyboard:
+	$ XKBOPTIONS="grp:ctrl_alt_toggle"
