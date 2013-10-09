@@ -233,8 +233,13 @@ p avg
 p sum
 #----------------- untar bz2, bz files --------------------
 # extract bz files
-tar -xjvf <filename>.tar.bz2
-tar -zxvf <filename>.tar.bz2
+	$ tar -xjvf <filename>.tar.bz2
+	$ tar -zxvf <filename>.tar.bz2
+# For example, you have directory called /home/jerry/prog and you would
+# like to compress this directory then you can type tar command as follows:
+	$ tar -zcvf prog-1-jan-2005.tar.gz /home/jerry/prog
+# to restore use:
+	$ tar -zxvf prog-1-jan-2005.tar.gz
 #----------------- screen ---------------------------------
 # list all available (active screens)
 screen -ls
@@ -274,3 +279,7 @@ xclip -o -sel c
 # or
 xclip -out -selection c
 
+# ------------------ split file ---------------------------
+# split large_file into 10k chunks with the given prefix
+# and numbered suffixes (-d option)
+split -l 10000 -d <large_file> <prefix-for-10k-chunks>
