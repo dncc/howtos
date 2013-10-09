@@ -337,3 +337,6 @@ awk '/foo/ { print $0 }' BBS-list
 # tory that were last modified in November (of any year):
   ls -l | awk ’$6 == "Nov" { sum += $5 } END { print sum }’
 
+# print first 10 lines 9th field from the file
+awk 'n < 100 { print $11; n++}' <file>.txt
+

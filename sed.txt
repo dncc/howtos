@@ -159,6 +159,12 @@ SELECTIVE PRINTING OF CERTAIN LINES:
  # print first 10 lines of file (emulates behavior of "head")
  sed 10q
 
+ # print all the lines between 5 and 10
+ sed -n '5,10p' <filename>
+
+ # print just line 5
+ sed -n 5p <filename>
+
  # print first line of file (emulates "head -1")
  sed q
 
