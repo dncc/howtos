@@ -1,0 +1,42 @@
+# first look at wiki-cliqz
+
+# to deploy app w/o installing everything from the scratch
+# first list all instances associated w/ this app
+	$ fab std.ec2.list_instances
+# it will output smth like this:
+
+	$ Instances of 'mozsocial'
+	$ mozsocial-node-dragancc i-93c5ede9 <unknown-owner> running us-east-1a sg:mozsocial
+	$         Public: 50.17.42.222 Private: 10.190.125.21
+	$         Launch Time: 2013-08-13T13:22:05.000Z
+	$
+	$ Done.
+
+# you want to install the new app version on the Private (IP) so run:
+	$ fab -H <IP>[,<IP>{*}] install_program
+
+# IP is the private IP of the AWS instance (it can be many of them)
+# How deployment of the app is actually done is that it uploads new app
+# source dir (e.g. mozsocial-2013-08-14) and creates symlink (e.g. mozsocial)
+# to points to it
+# Everything is done to be idempotent (so if you install pckg that is already
+# installed than it will not be installed again, you just get message
+# 'updated..')
+
+# to relaunch application on the different machine
+# NOTE: you need to run ssh-add before that
+fab relaunch:app_name
+
+# ssh to the actual AWS instance w/ shell
+# first ssh to the DMZ (ssh proxy) instance
+ssh dmz.fbt.co
+# or
+ssh dmz.clyqz.com
+
+# second ssh to the private IP of the AWS instance
+# NOTE: you need to start ssh-add before that on your
+ssh IP
+
+# NOTE: IP is to be found on the EC2 Mgmt console for the
+# particular cluster (group of instances that you are running)
+

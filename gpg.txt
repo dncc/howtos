@@ -1,0 +1,98 @@
+# http://blog.sanctum.geek.nz/linux-crypto-gnupg-keys/
+
+# 1. Install
+	$ apt-get install gnupg
+
+# 2. Edit ~/.gnupg/gpg.conf to tell GPG to use stronger 
+#	 SHA256 hash algo for signatures (rather than SHA1)
+personal-digest-preferences SHA256
+cert-digest-algo SHA256
+default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
+
+# 3. Generate keys:
+	$ gpg --gen-key
+# choose (1) RSA and RSA (default)
+# and for size choose 4096 (longest available)
+
+# 4. Enter personal data to generate your 0xID (8 digit hex num)
+# Enter passphrase when prompted (essential for access to private key)
+# 5. Generate some entropy (just type on keyboard rnd characters)
+# 6. After this keys should be generated
+
+# Managing Keys
+#----------------------
+# to list keys enter 
+gpg --list-secret-keys
+gpg --list-public-keys
+
+# * backup your ~/.gnupg to some secure place! *
+
+# You can refer to key by your name or ID.
+# For instance to export public key enter:
+gpg --armor --export ID > public-key.asc
+# To export secret key enter:
+gpg --armor --export-secret-key ID > public-key.asc
+
+# You need to generate revocation sertificate. In 
+# case your key is ever compromised you use this
+# to revoke it.
+gpg --output revoke.asc --gen-revoke ID
+# This will create revoke.asc. Keep it safe! 
+# Hard copy in a bank deposit is a good idea!
+
+# Managing passwords with pass(1)
+# ----------------------------------------------
+# in the background pass(1) uses GPG
+# install: 
+	$ sudo apt-get install pass
+# initialize empty password storage:
+	$ pass init 0xGPG-ID 
+		# obtain GPG-ID by:
+			$ gpg --list-secret-keys
+# this creates ~/.password-store directory
+
+# insert password:
+	$ pass insert mail.google.com/dcvetinovic@gmail.com
+# this will eventualy create encrypted gpg file w/ password:
+# '.passwords-store/mail.google.com/dcvetinovic@google.com.gpg'
+
+# list all passwords:
+	$ pass
+
+# generate password 16 characters in size:
+	$ pass generate mail.google.com/dcvetinovic@gmail.com 16
+
+# edit password:
+	$ pass edit mail.google.com/dcvetinovic@gmail.com
+
+# retrieve password on stdout:
+	$ pass mail.google.com/dcvetinovic@gmail.com
+# and than enter passphrase in gpg prompt
+
+# retrieve password on clipboard directly:
+	$ pass -c mail.google.com/dcvetinovic@gmail.com
+# and than enter passphrase in gpg prompt
+
+# remove password:
+	$ pass rm mail.google.com/dcvetinovic@gmail.com
+# remove whole dir w/ passwords:
+	$ pass rm -r mail.google.com
+
+# version control with git
+	$ pass git init
+
+# backup in tar encrypted file
+	$ tar -cs .password-store \
+		| gpg --sign --encrypt -r 0xGPG-ID \
+		> password-store-backup.tar.gz.gpg
+
+# restore backup
+	$ gpg --decrypt \
+		| tar -xz < password-store-backup.tar.gz.gpg
+
+
+
+
+
+
+

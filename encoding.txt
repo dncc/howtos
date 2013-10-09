@@ -1,0 +1,41 @@
+- characters in unicode are represented as a _code points_
+- _code points_ are hexadecimal integer numbers (base 16)
+- each _code point_ is represented w/ U+NNNN notation that
+  means 0xNNNN (for instance U+12ab is hex number 0x12ab)
+- on the screen/paper characters are represented as _glyphs_
+  for instance _glyph_ for the first uppercase letter of the
+  laphabet is A.
+
+To summarize: a Unicode string is a sequence of code points,
+which are numbers from 0 to 0x10ffff. This sequence needs to
+be represented as a set of bytes (meaning, values from 0-255)
+===
+*The rules for translating a Unicode string into a sequence of
+bytes are called an encoding*
+===
+
+Python’s default encoding is the ‘ascii’ encoding. The rules for
+converting a Unicode string into the ASCII encoding are simple;
+for each code point:
+    *If the code point is < 128, each byte is the same as the value
+	of the code point.
+    *If the code point is 128 or greater, the Unicode string can’t
+	be represented in this encoding. (Python raises a
+	UnicodeEncodeError exception in this case.)
+
+Latin-1, also known as ISO-8859-1, is a similar encoding. Unicode
+code points 0-255 are identical to the Latin-1 values, so
+converting to this encoding simply requires converting code points
+to byte values; if a code point larger than 255 is encountered,
+the string can’t be encoded into Latin-1.
+
+Python 2.x’s Unicode Support
+----------------------------
+Unicode strings are expressed as instances of the unicode type.
+It derives from an abstract type called basestring, which is also
+an ancestor of the str type; you can therefore check if a value is
+a string type with isinstance(value, basestring). Under the hood,
+Python represents Unicode strings as either 16- or 32-bit integers,
+depending on how the Python interpreter was compiled.
+
+
