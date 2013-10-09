@@ -53,3 +53,12 @@ cat ~/.ssh/id_dsa.pub | ssh alch763@xcb 'cat >> .ssh/authorized_keys'
 ---
 # start sshd server with test config file
 sudo /usr/sbin/sshd -f /etc/ssh/sshd_config.test -p 2022 -d
+---
+# download file from a remote server
+scp user@host:/path/to/the/file.txt /local/directory
+# upload file to a remote server
+scp SourceFile user@host:directory/TargetFile
+
+
+
+
