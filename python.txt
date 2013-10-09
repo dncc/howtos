@@ -1,0 +1,7 @@
+# see version of a package
+pip freeze | grep <package_name>
+
+# python interactive shell startup file
+export PYTHONSTARTUP=$HOME/.pythonrc
+# and put there what you want to be executed for
+# each python interactive shell session
