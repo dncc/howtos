@@ -31,3 +31,8 @@ tmux attach -t <sname>
 <Ctrl-w>[
 # quit scroll mode
 q
+
+# reload configuration for active tmux session
+C^[ (send prefix) + :
+# then type in command prompt
+:source-file ~/.tmux.conf
