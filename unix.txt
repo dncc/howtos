@@ -29,6 +29,10 @@ sudo /etc/init.d/httpd restart
 # append a ssh public key to a remote machines keys file
 cat ~/.ssh/id_dsa.pub | ssh alch763@xcb 'cat >> .ssh/authorized_keys'
 
+# live view of log files
+#-------------------------
+tail -f /path/to/log.log
+
 #----------------------------------------------------------------
 #	XARGS
 #----------------------------------------------------------------
@@ -47,6 +51,9 @@ find . -name '*.rb' | xargs grep 'require'
 # Will find all log files over 2 gigs and older than 3 days.
 # Then it will gzip them split across 8 parallel gzip processes.
 find ./ -name "*.log" -size +2G -ctime +3 | xargs -P 8 gzip
+
+# compress file with gzip
+gzip -c part-test.txt > part-test.gz
 
 # list files, grep file w/ 'forth' word and open it w/ evince
 # "foo" can be any string, for instance "{}", -I option means
