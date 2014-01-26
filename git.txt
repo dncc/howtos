@@ -87,6 +87,10 @@ git revert HEAD~3 #(HEAD~3 is the same as HEAD^^^)
 -------------------------------------------------------
 git diff HEAD:Git.txt HEAD^:Git.txt
 
+# view diffs on stash
+# ------------------------------------------
+git stash show -p stash@{0}
+
 -------------------------------------------------------
 # UNDO COMMIT
 -------------------------------------------------------
@@ -376,3 +380,8 @@ git branch -d bugfix
 # remove files from index w/o removing it from working tree
 #--------------------------------------------------------------------------
 git rm --cached <file>
+
+# reset hard remote git repo
+#-------------------------------
+git reset --hard <commit>  # on local machine
+git push --force origin <branch> # to remote git repo
