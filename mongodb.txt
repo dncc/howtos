@@ -5,8 +5,9 @@ sudo /etc/rc.d/mongodb start|stop|restart
 mongo
 #mongo console main commands
 show dbs
-use db
+use <db>
 show collections
+db.dropDatabase()
 db.collection.help()
 
 #dump collection from database
