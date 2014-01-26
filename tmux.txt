@@ -36,3 +36,6 @@ q
 C^[ (send prefix) + :
 # then type in command prompt
 :source-file ~/.tmux.conf
+
+# see keybindings , help keybinding (prefix + ?)
+C-o + ? 
