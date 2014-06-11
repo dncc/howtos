@@ -91,6 +91,12 @@ git diff HEAD:Git.txt HEAD^:Git.txt
 # ------------------------------------------
 git stash show -p stash@{0}
 
+# stash apply and then drop
+git stash pop
+
+# stash with name
+git stash save "descriptive name for stash"
+
 -------------------------------------------------------
 # UNDO COMMIT
 -------------------------------------------------------
@@ -385,3 +391,16 @@ git rm --cached <file>
 #-------------------------------
 git reset --hard <commit>  # on local machine
 git push --force origin <branch> # to remote git repo
+
+# delete remote branch from origin
+#-------------------------------
+git push origin --delete <branchName>
+
+# delta commits between two branches
+#-----------------------------------
+git cherry <branch-1> <branch-2>
+
+# apply diff from master:README.md to develop:README.md
+#-----------------------------------
+git diff develop master -- README.md | git apply
+
