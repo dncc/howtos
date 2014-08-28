@@ -58,7 +58,10 @@ sudo /usr/sbin/sshd -f /etc/ssh/sshd_config.test -p 2022 -d
 scp user@host:/path/to/the/file.txt /local/directory
 # upload file to a remote server
 scp SourceFile user@host:directory/TargetFile
-
-
-
-
+# remove public key from known hosts
+ssh-keygen -f "~/.ssh/known_hosts" -R <host-ip>
+---
+# Could not open a connection to your authentication agent.
+# so you need an ssh agent, issue:
+eval `ssh-agent -s`
+---
