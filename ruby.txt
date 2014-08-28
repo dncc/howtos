@@ -24,3 +24,14 @@ sudo make install
 
 # unpack .gem file
 gem unpack <gem-name>.gem
+
+# install ruby with ruby-build first install ruby-build
+git clone https://github.com/sstephenson/ruby-build.git
+cd ruby-build
+sudo ./install.sh
+
+# see available ruby versions
+ruby-build --definitions
+
+# build and install ruby
+ruby-build 1.9.3-p0 ~/.rubies/ruby-1.9.3-p0
