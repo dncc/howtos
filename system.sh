@@ -92,6 +92,29 @@ rm -r freetype-2.4.0
 # add the line from bellow to a definition to make it default one
 Default=1
 
+# toggle search bar in Firefox v.>=29
+# -----------------------------------------------------
+# add following js code in .vimperatorrc to show and hide the navigation bar by F2 key.
+map <silent> <F2> :js toggle_navbar()<CR>
+:js << EOF
+function toggle_navbar() {
+    var nb = document.getElementById('nav-bar');
+    if (!nb)
+        return;
+    nb.style.visibility = (nb.style.visibility == '') ? 'collapse' : '';
+    nb.style.overflow = (nb.style.height == '') ? '' : 'hidden';
+    }
+toggle_navbar();
+EOF
+
+# use profile manager to create profile
+# -------------------------------------------------
+firefox --ProfileManager
+
+# start firefox with different user
+# -------------------------------------------------
+firefox -P <profile> --no-remote &
+
 # Disable annoying OpenSSH pop-up window for entering ssh-passphrase
 # -----------------------------------------------------
 # comment everything in /etc/X11/Xsession.d/90x11-common-ssh-agent file
