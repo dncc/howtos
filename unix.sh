@@ -156,7 +156,7 @@ screen -r ruby  #reconnect
 ^A c
 exit OR ^D
 # list all windows for current session
-^A "
+^A \"
 # select 0 window
 ^A 0
 #----------------- VIM SLIME -------------------
@@ -290,3 +290,4 @@ xclip -out -selection c
 # split large_file into 10k chunks with the given prefix
 # and numbered suffixes (-d option)
 split -l 10000 -d <large_file> <prefix-for-10k-chunks>
+
