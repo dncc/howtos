@@ -1,0 +1,11 @@
+# installation
+--------------
+https://github.com/hcarty/ocamlbrew
+
+$ curl -kL https://raw.github.com/hcarty/ocamlbrew/master/ocamlbrew-install | bash
+
+# this will install ocaml, opam, utop
+# after that opam  has to be configured
+$ opam init
+# it will create ~/.ocamlinit and append ~/.zshrc
+
