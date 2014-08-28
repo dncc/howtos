@@ -5,3 +5,7 @@ pip freeze | grep <package_name>
 export PYTHONSTARTUP=$HOME/.pythonrc
 # and put there what you want to be executed for
 # each python interactive shell session
+
+# ipython autoreload
+%reload_ext autoreload
+%autoreload 2
