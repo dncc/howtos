@@ -1,0 +1,42 @@
+I've been setting up a VPC at Amazon, which will hopefully better
+protect us from the bad guys on the Internet. So far, our machines
+are still all outside the VPC; but I hope that we can start testing
+things soon.
+
+In order to have access to the VPC you need an OpenVPN client such as 'Tunnelblick' and a public-private key pair that has been signed by the VPN server's certificate authority. Here's what you need to do:
+
+
+Please run the following command after you have replaced John Smith's name with yours:
+
+(export NAME=john-smith; openssl req -out $NAME.csr -new -newkey rsa:2048 -nodes -keyout $NAME.key -subj /CN=`echo $NAME|tr - .`@cliqz.com)
+
+AFAIK, the required OpenSSL tool is pre-installed on MacOS. The command gives you two files in your current working directory:
+
+john-smith.key -- Your private key. Keep it on your machine. Never send it to any other machine.
+john-smith.csr -- A certificate signing request, which contains your public key.
+
+Send me the CSR file. I will sign it with the certificate authority's key and send you a TGZ containing the following files:
+
+client.crt -- Your signed certificate, which grants you access to the VPN.
+ca.crt -- The certificate authority's public key.
+config.ovpn -- The VPN configuration.
+
+Please unpack the TGZ and copy your private key into the resulting folder:
+
+tar xzf cliqz.tblk.tgz
+cp -pi john-smith.key cliqz.tblk/client.key
+
+Now install an OpenVPN client such as 'Tunnelblick':
+
+https://code.google.com/p/tunnelblick/
+
+During the installation Tunnelblick will ask you if you have configuration data. Point it to the 'cliqz.tblk' folder. If you had Tunnelblick already installed, you can just open 'cliqz.tblk' from the MacOS Finder, which pretends that this is a document rather than a folder.
+
+
+Let me know if something is unclear or not working as described. I'm happy to assist you.
+
+Best regards
+
+  Thomas
+
+

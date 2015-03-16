@@ -1,0 +1,8 @@
+# initialize client (python)
+import redis
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
+# see all entries
+r.keys()
+# delete entries
+r.delete('key1')
+

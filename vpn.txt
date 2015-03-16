@@ -1,0 +1,70 @@
+For each client, you will need to have copied the client's certificate and key, as well as the CA certificate, from the server. This should be done in a secure manner so you can ensure the files are not altered in any way, such as using SSH to transfer or a USB stick in your possession. Once they are on the client, copy them to the /etc/openvpn/ directory:
+
+# cd /etc/openvpn
+# cp ~/client.{key,crt} .
+# cp ~/ca.crt .
+# cp /usr/share/doc/openvpn-2.0.9/sample-config-files/client.conf .
+# vim client.conf
+
+In the client.conf, what you need to uncomment are the "user" and "group" directives, to make the openvpn run as the unprivileged" nobody" user rather than root. Also, if your key and certificate files are not named "client.key" and "client.crt" you will need to change the crt and key directives in the file as well.
+An uncommented client configuration file follows, that serves as an example:
+
+client
+dev tun
+proto udp
+remote linsec.ath.cx 1194
+resolv-retry infinite
+nobind
+user nobody
+group nobody
+persist-key
+persist-tun
+ca ca.crt
+cert client1.crt
+key  client1.key
+comp-lzo
+pull dhcp-options
+
+To initiate a startup test, execute:
+
+# openvpn client.conf
+
+Tue Sep 14 17:18:14 2010 OpenVPN 2.0.9 x86_64-redhat-linux-gnu [SSL] [LZO] [EPOLL] built on Mar  8 2007
+
+...
+
+Tue Sep 14 17:18:15 2010 [server] Peer Connection Initiated with 1.2.3.4:1194
+Tue Sep 14 17:18:16 2010 SENT CONTROL [server]: 'PUSH_REQUEST' (status=1)
+Tue Sep 14 17:18:16 2010 PUSH: Received control message: 'PUSH_REPLY,route 192.168.10.0 255.255.254.0,route 10.8.0.0,ping 10,ping-restart 120,ifconfig 10.8.0.6 10.8.0.5'
+
+...
+
+Tue Sep 14 17:18:16 2010 /sbin/ip addr add dev tun0 local 10.8.0.6 peer 10.8.0.5
+Tue Sep 14 17:18:16 2010 /sbin/ip route add 192.168.10.0/23 via 10.8.0.5
+Tue Sep 14 17:18:16 2010 /sbin/ip route add 10.8.0.0/32 via 10.8.0.5
+Tue Sep 14 17:18:16 2010 GID set to nobody
+Tue Sep 14 17:18:16 2010 UID set to nobody
+Tue Sep 14 17:18:16 2010 Initialization Sequence Completed
+
+There is a lot more output, but the above includes the important bits. We see here that a connection has been established with the remote server, with the IP address 1.2.3.4. We also see that the routes have been added, for the remote 192.168.10.0/23 network, and the VPN-specific 10.8.0.0/32 network. Now, you can make sure the link is up by using:
+
+# ifconfig tun0
+
+tun0      Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+          inet addr:10.8.0.6  P-t-P:10.8.0.5  Mask:255.255.255.255
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:100
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+And finally, make sure it works:
+
+# ping 10.8.0.1 -c 2
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+64 bytes from 10.8.0.1: icmp_seq=1 ttl=64 time=21.1 ms
+64 bytes from 10.8.0.1: icmp_seq=2 ttl=64 time=14.8 ms
+
+A connection to the remote OpenVPN server has been successfully established. And if you followed the previous tip about setting up the OpenVPN server, you should be able to ping and establish a connection to any other available system on the server's LAN at this point as well.
+
+In order to access machines on the remote network with their FQDN (Fully Qualified Domain Name), you will need to modify /etc/resolv.conf to add a nameserver from the remote network to the top of the list. This can, and probably should, be scripted so that the DNS server is used whenever the VPN connection is established. This will allow you to connect to "server.foo.com" rather than always using IP addresses, like "192.168.10.23". On the server side, ensure that requests from this IP range (10.8.0.0/32) are not being blocked by the DNS server ACLs -- this is an important thing to remember, as it bit me and cost me a day of frustration.

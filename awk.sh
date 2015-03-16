@@ -340,3 +340,9 @@ awk '/foo/ { print $0 }' BBS-list
 # print first 10 lines 9th field from the file
 awk 'n < 100 { print $11; n++}' <file>.txt
 
+# Filter the data to get only 1st, 2nd, 6th and last column
+# FS is field separator similar to -F. OFS is output field separator
+awk 'BEGIN{FS=",";OFS=",";}{print $1,$2,$6,$NF}' uniqMovie.csv > newMovie.csv
+
+# What is the average number of reviews for all movies?
+awk -F "," '{colSum+=$2} END { print "Average = ",colSum/NR}' movies.csv

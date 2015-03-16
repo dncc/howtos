@@ -404,3 +404,8 @@ git cherry <branch-1> <branch-2>
 #-----------------------------------
 git diff develop master -- README.md | git apply
 
+# fetch remote branch
+# --------------------------------------
+git fetch <remote-repo> <remote-branch>
+git checkout -b <local-branch-name> <remote-repo>/<remote-branch>
+

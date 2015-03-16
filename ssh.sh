@@ -65,3 +65,13 @@ ssh-keygen -f "~/.ssh/known_hosts" -R <host-ip>
 # so you need an ssh agent, issue:
 eval `ssh-agent -s`
 ---
+
+rsync via ssh proxy
+--------------------
+upload to remote server
+----
+rsync -v --rsh "ssh -A root@<proxy-host.com> ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" local/file/path.txt root@remot-host:/remote/dest/file/path.txt
+
+rsync -v --rsh "ssh -A root@<proxy-host.com> ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" root@remot-host:/remote/dest/file/path.txt local/file/path.txt
+
+

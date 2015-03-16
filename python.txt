@@ -9,3 +9,13 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 # ipython autoreload
 %reload_ext autoreload
 %autoreload 2
+
+# install mytplotlib for python 3
+# build all matplotlib dependencies
+sudo apt-get build-dep python-matplotlib
+
+git clone https://github.com/matplotlib/matplotlib
+cd matplotlib
+python3 setup.py build
+sudo python3 setup.py install
+
